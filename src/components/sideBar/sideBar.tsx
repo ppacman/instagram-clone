@@ -1,12 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const sideBar = () => {
+const SideBar = () => {
     return (
-        <div>
-         sideBar
-        </div>
+      <>
+      <SideBox>
+        hello
+      </SideBox>
+      </>
     );
 };
 
-export default sideBar;
+export default SideBar;
+
+const SideBox = styled.div`
+    width : 220px;
+    height: 717.600px;
+    background-color: aliceblue;
+`
