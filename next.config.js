@@ -1,9 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  styledComponents:
+    Boolean |
+    {
+      displayName: Boolean | undefined,
+      ssr: Boolean | undefined
+    }
 }
-
 module.exports = {
-  swcMinify: true,
-  useSWC: true,
-};
+  experimental: {
+    forceSwcTransforms: true,
+  },
+}
