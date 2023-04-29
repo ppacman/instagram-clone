@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const LoginBox = () => {
     return (
        <Box>
-        
+        안녕하세유
        </Box>
     );
 };
