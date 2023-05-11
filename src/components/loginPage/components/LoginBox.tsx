@@ -1,13 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
+import Image from "next/image";
+import instagramTypo from "../../../../public/img/instagramTypo.png";
 
 const LoginBox = () => {
   const [idValue, setIdValue] = useState("");
   const [pwValue, setPwValue] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleIdChange = (event: any) => {
+  const handleIdChange = (event : any) => {
     setIdValue(event.target.value);
   };
   const handlePwChange = (event: any) => {
@@ -17,9 +19,17 @@ const LoginBox = () => {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+  const handleSubmit = (event : any) => {
+    event.preventDefault();
+    // 서버로 로그인 요청을 보냄
+  };
 
   return (
     <Wrraper>
+      <TypoBox>
+      <Image src={instagramTypo} alt={""} width = {174} height={50}/>
+      </TypoBox>
+      <form onSubmit={handleSubmit}>
       <IdBox>
         <Label htmlFor="username">
           <IdInput
@@ -53,6 +63,7 @@ const LoginBox = () => {
           </PwBtnBox>
         )}
       </PwBox>
+      </form>
     </Wrraper>
   );
 };
@@ -63,8 +74,14 @@ const Wrraper = styled.div`
   width: 348.4px;
   height: 377.387px;
   border: 1px solid rgb(219, 219, 219);
+  padding : 10px 0px 10px 0;
 `;
 
+const TypoBox = styled.div`
+  width : 348.4px;
+
+
+`
 const IdBox = styled.div`
   width: 266.8px;
   height: 36px;
