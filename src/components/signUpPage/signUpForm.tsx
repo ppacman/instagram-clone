@@ -1,5 +1,9 @@
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
+import logo from '../signUpPage/logo.png';   //이거는 이제 너  이미지 파일이 예를 들어    image.png 면  image 만 써서 import 하면 되고 이미지 파일은 
+// public 폴더에 image 파일에 담아놓으면 돼 
+import Image from 'next/image';    //이게 넥스트에서 지절로 제공해주는 Image야 
+
 // import mainLogo from '/Users/maaaanzi/instagram-clone/src/components/signUpPage/logo.png';
 
 function SignUpForm() {
@@ -61,7 +65,8 @@ function SignUpForm() {
   return (
     // <form onSubmit={handleSubmit}>
       <Box>
-        <Img src='src/components/signUpPage/logo.png'></Img>
+        <Image src={logo} alt ={""}  width={100} height={100} />    
+        
         <Title>
           친구들의 사진과 동영상을 보려면 가입하세요.
         </Title>
