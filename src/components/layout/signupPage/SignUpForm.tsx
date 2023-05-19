@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 
 function SignUpForm() {
   const [email, setEmail] = useState('');
@@ -29,25 +30,35 @@ function SignUpForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        이름
+      <img src='logo.png' />
+      <div>
+        친구들의 사진과 동영상을 보려면 가입하세요.
+      </div>
+      <div>
+        휴대폰 번호 또는 이메일 주소
+        <input type="text" value={email} onChange={handleEmailChange} required />
+      </div>
+      <div>
+        성명
         <input type="text" value={name} onChange={handleNameChange} required />
-      </label>
-      <label>
-        닉네임
-        <input type="text" value={nickname} onChange={handleNicknameChange} required />
-      </label>
-      <label>
+      </div>
+      <div>
+        사용자 이름
+        <input type="password" value={nickname} onChange={handleNicknameChange} required />
+      </div>
+      <div>
         비밀번호
-        <input type="password" value={password} onChange={handlePasswordChange} required />
-      </label>
-      <label>
-        이메일
-        <input type="email" value={email} onChange={handleEmailChange} required />
-      </label>
-      <button type="submit">가입하기</button>
+        <input type="email" value={password} onChange={handlePasswordChange} required />
+      </div>
+      <Button type="submit">가입</Button>
     </form>
   );
 }
 
 export default SignUpForm;
+
+const Button = styled.button`
+  color: blue;
+  width: 50px;
+  height: 30px;
+`;
