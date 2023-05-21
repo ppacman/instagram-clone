@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import LoginBox from './components/LoginBox';
-import SignupBox from './components/SignupBox';
+import MobileImage from './components/MobileImage';
 const LoginPage = () => {
     return (
         <Wrapper>
-       <LoginBox />
-       <SignupBox />
+            <MobileImage />
+            <LoginBox />
        </Wrapper>
 
       
@@ -17,11 +17,9 @@ export default LoginPage;
 
 
 const Wrapper = styled.div`
-   
+    margin-top: 32px;
     display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+    align-items: center;
     justify-content: center;
-    margin-top: 12px;
-    max-width: 350px
+    padding-bottom: 32px;
 `
