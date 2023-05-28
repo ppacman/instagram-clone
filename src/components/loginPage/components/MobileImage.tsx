@@ -3,13 +3,16 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import mobile from '../../../../public/img/mobile.png';
 import instagram from "../../../../public/img/instagram.jpg"
+import mobile1 from '../../../../public/img/mobile1.png';
 const MobileImage = () => {
     return (
         <div>
            
           <Wrapper>
           <Image src={mobile} alt={""} width={380.312} height={581.151} />
-        
+          <ImgWrapper>
+          <Image src={instagram} alt={""} width={250} height={538.84} border-radius={20} />
+          </ImgWrapper>
           </Wrapper>
           
         </div>
@@ -30,9 +33,11 @@ justify-content: flex-start;
 
 const ImgWrapper = styled.div`
     position: fixed;
-  
-    background-color: black;
+    left : 500px;
+    top : 60px;
     width : 250px;
     height: 538.84px;
+    border-radius: 20px;
+    overflow: hidden;
 `
 
