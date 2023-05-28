@@ -1,12 +1,18 @@
 import React from "react";
 import styled from "styled-components";
+import Router from "next/router";
+import { pathName } from "../../../config/pathName";
+
 
 const SignupBox = () => {
+  const handleRouter = (router: string) => {
+    Router.push(router);
+  };
   return (
     <Wrapper>
       <TypoBox>
         <Typo>계정이 없으신가요?</Typo>
-        <LinkTypo>가입하기</LinkTypo>
+        <LinkTypo onClick={() => handleRouter(pathName.SIGNUP)}>가입하기</LinkTypo>
       </TypoBox>
     </Wrapper>
   );
