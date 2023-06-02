@@ -56,7 +56,7 @@ function SignUpForm() {
     setUsername(randomId);
     console.log(randomId)
   }
-  
+
 
   return (
     // <form onSubmit={handleSubmit}>
@@ -81,7 +81,7 @@ function SignUpForm() {
             <span onClick={handlePasswordType}>{passwordType.visible ? <CheckPw>숨기기</CheckPw> : <CheckPw>비밀번호 표시</CheckPw>}</span>
           </PwForm>
         </Password>
-        <Button type="submit">가입</Button>
+        <Button type="submit" onSubmit={hand}>가입</Button>
       </Box>
     // </form>
   );
