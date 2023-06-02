@@ -55,21 +55,24 @@ function SignUpForm() {
     })
   }
 
-  const randomButton = () => {
-    const randomId = Math.random().toString(36).substring(2,11);
-    setUsername(randomId);
-    console.log(randomId)
-  }
+  // const randomButton = () => {
+  //   const randomId = Math.random().toString(36).substring(2,11);
+  //   setUsername(randomId);
+  //   console.log(randomId)
+  // }
 
+ 
 
   return (
     // <form onSubmit={handleSubmit}>
+    <Form>
       <Box>
-        <Image src={logo} alt ={""}  width={100} height={100} />    
-        
+        <Image src={logo} alt ={""}  width={200} height={80} />    
         <Title>
           친구들의 사진과 동영상을 보려면 가입하세요.
         </Title>
+        {/* <hr />
+        <ContainerStyle><TextStyle>또는</TextStyle></ContainerStyle> */}
         <Email>
           <Input type="email" value={emailOrPhone} placeholder='휴대폰 번호 또는 이메일 주소' onChange={handleEmailChange} required></Input>
         </Email>
@@ -78,7 +81,7 @@ function SignUpForm() {
         </Fullname>
         <Username>
           <Input type="text" value={username} placeholder="사용자 이름" onChange={handleUsernameChange} required></Input>
-          <span onClick={randomButton}>랜덤생성</span>
+          {/* <span onClick={randomButton}><RanButton>랜덤생성</RanButton></span> */}
         </Username>
         <Password>
           <PwForm>
@@ -86,9 +89,9 @@ function SignUpForm() {
             <span onClick={handlePasswordType}>{passwordType.visible ? <CheckPw>숨기기</CheckPw> : <CheckPw>비밀번호 표시</CheckPw>}</span>
           </PwForm>
         </Password>
-        <Button type="submit" onSubmit={hand}>가입</Button>
+        <Button type="submit" >가입</Button>
       </Box>
-    // </form>
+    </Form>
   );
 }
 
@@ -96,25 +99,42 @@ export default SignUpForm;
 
 
 
-const Box = styled.div`
+const Form = styled.div`
   display: flex;
   flex-direction: column;
-  width: 400px;
-  height: 500px;
+  width: auto;
+  height: auto;
   align-items: center;
   justify-content: center;
-  border: 1px solid;
   `;
+const Box = styled.div`
+display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  height: 500px;
+  border: 1px solid;
+
+`;
 
 const Button = styled.button`
 background-color: #74b9ff;
-width: 50px;
+width: 268px;
 height: 30px;
 margin: 8px 40px;
+border: 0px;
+border-radius: 8px;
+color: whitesmoke;
+font-weight: bold;
+
 `;
 
 const CheckPw = styled.button`
   position: absolute;
+  left: 360px;
+  top: 360px;
+  font-weight: bold;
   /* width: auto;
   height: 38px; */
   border: none;
@@ -126,9 +146,7 @@ const CheckPw = styled.button`
 `;
 
 // const RanButton = styled.button`
-//   width: 52px;
-//   height: 38px;
-//   margin: 5px 5px;
+//   position: absolute;
 // `;
 
 
@@ -140,13 +158,16 @@ position: relative;
 /* color: #dfe6e9; */
 `;
 
-  const Img = styled.img`
-    width: 50px;
-    height: 30px;
-    `;
+  // const Image = styled.img`
+  //   width: 50px;
+  //   height: 30px;
+  //   `;
 
   const Title = styled.div`
-    font-size: 24px;
+  color: grey;
+    font-size: 16px;
+  font-weight: bold;
+
   `;
 
   const Email = styled.div``;
@@ -164,3 +185,17 @@ position: relative;
     align-items: center;
     justify-content: center;
   `;
+
+// const ContainerStyle = styled.div`
+//   width: "100%";
+//   text-align: center;
+//   border: "1px solid";
+//   /* lineHeight: "0.1em"; */
+//   margin: "10px 0 20px";
+// `;
+
+// const TextStyle = styled.div`
+// color: grey;
+// background: "#fff";
+// padding: "0 10px";
+// `
