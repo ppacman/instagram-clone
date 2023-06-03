@@ -37,7 +37,7 @@ function SignUpForm() {
     setIsEmailValid(isValid);
   };
   const validateEmail = (emailOrPhone:string):boolean => {
-    const emailRegExp = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/ || /^\d{3}-\d{3,4}-\d{4}$/; // 이메일 or 전화번호
+    const emailRegExp = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
     return emailRegExp.test(emailOrPhone);
   };
     // const emailRegExp = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
