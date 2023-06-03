@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect, useRef, forwardRef} from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import instagramTypo from "../../../public/img/instagramTypo.png";
@@ -16,8 +16,11 @@ import whiteHeart from "../../../public/img/whiteHeart.png";
 import blackHeart from "../../../public/img/blackHeart.png";
 import whitePlus from "../../../public/img/whitePlus.png";
 import blackPlus from "../../../public/img/blackPlus.png";
-import profile from '../../../public/img/profile.png';
-import menu from '../../../public/img/menu.svg';
+import menu from "../../../public/img/menu.svg";
+import whiteProfile from "../../../public/img/whiteProfile.png";
+import blackProfile from "../../../public/img/blackProfile.png";
+import Modal from "./components/Modal";
+
 const SideBar = () => {
   const [buttonStates, setButtonStates] = useState([
     true,
@@ -27,9 +30,10 @@ const SideBar = () => {
     false,
     false,
     false,
-    false
+    false,
   ]);
   const [modalState, setModalState] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null)
 
   const handleClick = (index: number) => {
     const newButtonStates = [...buttonStates];
@@ -37,19 +41,48 @@ const SideBar = () => {
     newButtonStates[index] = true; // 클릭한 버튼의 상태를 true로 설정
     setButtonStates(newButtonStates);
   };
-  const modalClick =()=>{
-    setModalState(!modalState)
-  }
+  const modalClick = () => {
+    setModalState(!modalState);
+  };
+  
+  const handleKeyDown = (event : any) => {
+    if (event.key === 'Escape') {
+      // ESC 키를 누르면 모달 닫기
+      setModalState(false);
+    }
+  };
+  
+  const handleClickOutside = (event: any) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      // 모달 외부를 클릭하면 모달 닫기
+      setModalState(false);
+    }
+  };
+  useEffect(() => {
+    if (modalState) {
+      // 모달이 열릴 때 이벤트 리스너 등록
+      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      // 모달이 닫힐 때 이벤트 리스너 해제
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [modalState]);
 
   return (
     <>
+      {modalState && (
+       <Modal  />
+      )}
       <SideBox>
         <LogoBox>
           <Typo>
             <Image src={instagramTypo} alt={""} width={103} height={29} />
           </Typo>
         </LogoBox>
-        
         <MenuWrapper>
           <MenuBox>
             <Menu onClick={() => handleClick(0)}>
@@ -62,18 +95,18 @@ const SideBar = () => {
             </Menu>
           </MenuBox>
           <MenuBox>
-            <Menu  onClick={() => handleClick(1)}>
-            {buttonStates[1] ? (
+            <Menu onClick={() => handleClick(1)}>
+              {buttonStates[1] ? (
                 <Image src={blackSearch} alt={""} width={27} height={27} />
               ) : (
                 <Image src={whiteSearch} alt={""} width={27} height={27} />
               )}
-              <MenuTypo  active={buttonStates[1]}>검색</MenuTypo>
+              <MenuTypo active={buttonStates[1]}>검색</MenuTypo>
             </Menu>
           </MenuBox>
           <MenuBox>
             <Menu onClick={() => handleClick(2)}>
-            {buttonStates[2] ? (
+              {buttonStates[2] ? (
                 <Image src={blackCompass} alt={""} width={27} height={27} />
               ) : (
                 <Image src={whiteCompass} alt={""} width={27} height={27} />
@@ -82,63 +115,63 @@ const SideBar = () => {
             </Menu>
           </MenuBox>
           <MenuBox>
-            <Menu  onClick={() => handleClick(3)}>
-            {buttonStates[3] ? (
+            <Menu onClick={() => handleClick(3)}>
+              {buttonStates[3] ? (
                 <Image src={blackReels} alt={""} width={27} height={27} />
               ) : (
                 <Image src={whiteReels} alt={""} width={27} height={27} />
               )}
 
-              <MenuTypo  active={buttonStates[3]}>릴스</MenuTypo>
+              <MenuTypo active={buttonStates[3]}>릴스</MenuTypo>
             </Menu>
           </MenuBox>
           <MenuBox>
             <Menu onClick={() => handleClick(4)}>
-            {buttonStates[4] ? (
+              {buttonStates[4] ? (
                 <Image src={blackDm} alt={""} width={25} height={25} />
               ) : (
                 <Image src={whiteDm} alt={""} width={25} height={25} />
               )}
-              <MenuTypo  active={buttonStates[4]}>메시지</MenuTypo>
+              <MenuTypo active={buttonStates[4]}>메시지</MenuTypo>
             </Menu>
           </MenuBox>
           <MenuBox>
             <Menu onClick={() => handleClick(5)}>
-            {buttonStates[5] ? (
+              {buttonStates[5] ? (
                 <Image src={blackHeart} alt={""} width={27} height={27} />
               ) : (
                 <Image src={whiteHeart} alt={""} width={27} height={27} />
               )}
-               <MenuTypo  active={buttonStates[5]}>알림</MenuTypo>
+              <MenuTypo active={buttonStates[5]}>알림</MenuTypo>
             </Menu>
           </MenuBox>
           <MenuBox>
             <Menu onClick={() => handleClick(6)}>
-            {buttonStates[6] ? (
+              {buttonStates[6] ? (
                 <Image src={blackPlus} alt={""} width={27} height={27} />
               ) : (
                 <Image src={whitePlus} alt={""} width={27} height={27} />
               )}
-               <MenuTypo active={buttonStates[6]}>만들기</MenuTypo>
+              <MenuTypo active={buttonStates[6]}>만들기</MenuTypo>
             </Menu>
           </MenuBox>
           <MenuBox>
             <Menu onClick={() => handleClick(7)}>
-            {buttonStates[7] ? (
-                <Image src={profile} alt={""} width={27} height={27} />
+              {buttonStates[7] ? (
+                <Image src={blackProfile} alt={""} width={27} height={27} />
               ) : (
-                <Image src={profile} alt={""} width={27} height={27} />
+                <Image src={whiteProfile} alt={""} width={27} height={27} />
               )}
-               <MenuTypo  active={buttonStates[7]}>프로필</MenuTypo>
+              <MenuTypo active={buttonStates[7]}>프로필</MenuTypo>
             </Menu>
           </MenuBox>
         </MenuWrapper>
-
         <Menu onClick={modalClick}>
-        <Image src={menu} alt={""} width={27} height={27} />
-        <MenuTypo  active={modalState}>더보기</MenuTypo>
+          <Image src={menu} alt={""} width={27} height={27} />
+          <MenuTypo active={modalState}>더 보기</MenuTypo>
         </Menu>
       </SideBox>
+      
     </>
   );
 };
@@ -173,7 +206,6 @@ const MenuWrapper = styled.div`
   position: relative;
   flex-direction: column;
   align-items: flex-start;
-
 `;
 
 const MenuBox = styled.div`
@@ -181,7 +213,7 @@ const MenuBox = styled.div`
   width: 220px;
   height: 56px;
   background-color: white;
-  display: flexbox;
+  display: flex;
   align-items: center;
   justify-content: center;
 `;
@@ -198,7 +230,7 @@ const Menu = styled.div`
   &:hover {
     background-color: rgb(242, 242, 242);
   }
- 
+
   > img {
     transition: transform 0.3s ease-in-out;
   }
@@ -216,6 +248,6 @@ const MenuTypo = styled.div<{ active: boolean }>`
   font-size: 16px;
   font-weight: 400;
   align-items: center;
-  font-weight: ${props => (props.active ? 'bold' : '400')};
- 
+  font-weight: ${(props) => (props.active ? "bold" : "400")};
 `;
+
