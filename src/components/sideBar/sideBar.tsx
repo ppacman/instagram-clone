@@ -21,6 +21,7 @@ import whiteProfile from "../../../public/img/whiteProfile.png";
 import blackProfile from "../../../public/img/blackProfile.png";
 import Modal from "./components/Modal";
 
+
 const SideBar = () => {
   const [buttonStates, setButtonStates] = useState([
     true,
@@ -33,7 +34,8 @@ const SideBar = () => {
     false,
   ]);
   const [modalState, setModalState] = useState(false);
-  const modalRef = useRef<HTMLDivElement>(null)
+  const [postState, setPostState] = useState(false);
+
 
   const handleClick = (index: number) => {
     const newButtonStates = [...buttonStates];
@@ -44,7 +46,13 @@ const SideBar = () => {
   const modalClick = () => {
     setModalState(!modalState);
   };
-  
+  const postClick = ()=>{
+    setPostState(!postState);
+    handleClick(6);
+  }
+
+
+
   const handleKeyDown = (event : any) => {
     if (event.key === 'Escape') {
       // ESC 키를 누르면 모달 닫기
@@ -52,26 +60,7 @@ const SideBar = () => {
     }
   };
   
-  const handleClickOutside = (event: any) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
-      // 모달 외부를 클릭하면 모달 닫기
-      setModalState(false);
-    }
-  };
-  useEffect(() => {
-    if (modalState) {
-      // 모달이 열릴 때 이벤트 리스너 등록
-      document.addEventListener('keydown', handleKeyDown);
-      document.addEventListener('click', handleClickOutside);
-    }
-
-    return () => {
-      // 모달이 닫힐 때 이벤트 리스너 해제
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [modalState]);
-
+ 
   return (
     <>
       {modalState && (
@@ -146,7 +135,7 @@ const SideBar = () => {
             </Menu>
           </MenuBox>
           <MenuBox>
-            <Menu onClick={() => handleClick(6)}>
+            <Menu onClick={() => postClick()}>
               {buttonStates[6] ? (
                 <Image src={blackPlus} alt={""} width={27} height={27} />
               ) : (
@@ -156,7 +145,7 @@ const SideBar = () => {
             </Menu>
           </MenuBox>
           <MenuBox>
-            <Menu onClick={() => handleClick(7)}>
+            <Menu onClick={() =>handleClick(7)}>
               {buttonStates[7] ? (
                 <Image src={blackProfile} alt={""} width={27} height={27} />
               ) : (
