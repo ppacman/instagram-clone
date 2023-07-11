@@ -5,7 +5,7 @@ const SideBar = () => {
     return (
       <>
       <SideBox>
-        hello asshole
+      성공
       </SideBox>
       </>
     );
@@ -14,8 +14,15 @@ const SideBar = () => {
 export default SideBar;
   
 const SideBox = styled.div`
-    width : 220px;
-    height: 717.600px;
-    background-color: aliceblue;
-    border-right: 1px; 
+    width : 244.800px;
+    height: 100vh;
+    transform: translateX(0px);
+    display: block;
+    z-index: 1;
+    border-right: 1px solid rgb(219,219,219);
+  
+
+
+   
+    
 `

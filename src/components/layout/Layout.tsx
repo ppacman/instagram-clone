@@ -1,5 +1,5 @@
 import React from 'react';
-import SideBar from '../sideBar/sideBar';
+import SideBar from '../sideBar/sideBar'
 
 interface Props {
   children: React.ReactNode;
