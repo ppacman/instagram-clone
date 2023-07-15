@@ -29,8 +29,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: auto;
-  margin: 0px auto;
+  margin: 0px 100px 0px 150px;
+
 `;
 const PageSet = styled.div`
   display: flex;

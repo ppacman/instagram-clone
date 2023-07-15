@@ -11,12 +11,12 @@ const PostItem = ({ images }: PostItemProps) => {
       <Container>
         <HoverDiv>
           <Items>
-{/*             
+            {/*             
             <Image src={images} width="25" height="25" alt="" />
             <Image src={images} width="25" height="25" alt="" /> */}
           </Items>
         </HoverDiv>
-        <Image src={images} width="293" height="293" alt="" />
+        <Image src={images} width="309" height="309" alt="" />
         <svg
           aria-label="슬라이드"
           color="rgb(255, 255, 255)"
@@ -37,8 +37,8 @@ export default PostItem;
 const Container = styled.div`
   display: flex;
   justify-content: end;
-  width: 293px;
-  height: 293px;
+  width: 309px;
+  height: 309px;
   svg {
     position: absolute;
     margin: 8px;
@@ -49,8 +49,8 @@ const HoverDiv = styled.div`
   justify-content: center;
   position: absolute;
   z-index: 1;
-  width: 293px;
-  height: 293px;
+  width: 309px;
+  height: 309px;
   &:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.4);
@@ -58,6 +58,6 @@ const HoverDiv = styled.div`
 `;
 const Items = styled.div`
   display: flex;
-  gap: 25px;
+  gap: 4px;
   align-items: center;
 `;

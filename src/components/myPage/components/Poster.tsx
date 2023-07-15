@@ -21,6 +21,6 @@ export default Poster;
 const Container = styled.div``;
 const PostItemList = styled.div`
   display: flex;
-  gap: 28px;
+  gap: 4px;
   flex-wrap: wrap;
 `;

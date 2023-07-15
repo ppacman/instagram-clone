@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import whiteProfile from "../../../../../public/img/whiteProfile.png";
-import option from "../../../../../public/img/myPage/option.png";
+import whiteProfile from "../../../../public/img/whiteProfile.png";
+import option from "../../../../public/img/myPage/option.png";
 
 const Profile = () => {
   return (
@@ -30,11 +30,9 @@ const Profile = () => {
           </ListSpan>
         </SecondLine>
         <ThridLine>
-         <NameSpan>
-          김효성
-         </NameSpan>
-       
-          
+          <NameDiv>김효성</NameDiv>
+
+          <IntroDiv>뭐여</IntroDiv>
         </ThridLine>
       </InfoList>
     </Container>
@@ -109,12 +107,15 @@ const NumSpan = styled.span`
   font-size: 16px;
 `;
 const ThridLine = styled.div`
-  display: flex;
+  
 `;
-const NameSpan = styled.span`
+const NameDiv = styled.div`
   width: 42px;
-  height : 18px;
-  font-size : 14px;
+  height: 18px;
+  font-size: 14px;
   font-weight: 600;
-
-`
+`;
+const IntroDiv = styled.div`
+  font-weight: 400;
+  font-size: 14px;
+`;
