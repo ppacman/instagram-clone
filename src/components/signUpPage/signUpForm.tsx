@@ -7,6 +7,7 @@ import logo from "../signUpPage/logo.png";
 import Image from "next/image"; //이게 넥스트에서 지절로 제공해주는 Image야
 
 import { MdOutlineCancel, MdOutlineCheckCircleOutline } from "react-icons/md";
+import { isForStatement } from "typescript";
 
 // import mainLogo from '/Users/maaaanzi/instagram-clone/src/components/signUpPage/logo.png';
 
@@ -39,8 +40,18 @@ function SignUpForm() {
   //   // 서버로 회원가입 데이터 전송
   // };
 
+  const handleSpanEvent = (e: any) => {
+    if (e.target.value === "") {
+      e.target.previousSibling.style.transform = "";
+    } else {
+      e.target.previousSibling.style.transform =
+        "scale(calc(10 / 12)) translateY(-13px)";
+    }
+  };
+
   // 입력 값이 변경될 때마다 상태값 업데이트
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleSpanEvent(e);
     let span = e.target.previousSibling;
     setEmailOrPhone(e.target.value);
     // console.log(validateEmail(emailOrPhone));
@@ -94,12 +105,15 @@ function SignUpForm() {
   // }
 
   const handleFullnameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleSpanEvent(e);
     setFullname(e.target.value);
   };
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleSpanEvent(e);
     setUsername(e.target.value);
   };
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleSpanEvent(e);
     const passwordRegExp = /^(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/; // 최소 8자리 이상, 숫자, 특수기호 포함
     // console.log(passwordRegExp.test(e.target.value))
     // if(!passwordRegExp) {
@@ -114,10 +128,7 @@ function SignUpForm() {
     });
   };
 
-  const handleInputFocus = (e: any) => {
-    e.target.previousSibling.style.transform =
-      "scale(calc(10 / 12)) translateY(-13px)";
-  };
+  const handleInputFocus = (e: any) => {};
 
   // const randomButton = () => {
   //   const randomId = Math.random().toString(36).substring(2,11);
