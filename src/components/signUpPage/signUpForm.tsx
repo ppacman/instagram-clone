@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import logo from "../signUpPage/logo.png";
@@ -43,15 +43,44 @@ function SignUpForm() {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let span = e.target.previousSibling;
     setEmailOrPhone(e.target.value);
-    console.log(validateEmail(emailOrPhone));
+    // console.log(validateEmail(emailOrPhone));
     const check = validateEmail(emailOrPhone);
     setIsEmailValid(check);
   };
 
-  const handleSignUp = (e: FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const isValid = validateEmail(emailOrPhone);
-    setIsEmailValid(isValid);
+    // const target = e.target as HTMLFormElement;
+    // console.log(target.email.value);
+    // console.log(target.name.value);
+    // console.log(target.username.value);
+    // console.log(target.pw.value);
+    const data = {
+      email: emailOrPhone,
+      name: fullname,
+      username: username,
+      pw: password,
+    };
+    console.log(data);
+
+    const JSONdata = JSON.stringify(data);
+
+    const endpoint = "http://localhost:8080/api/signUp";
+
+    const options = {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSONdata,
+    };
+
+    const response = await fetch(endpoint, options);
+
+    const result = await response.json();
+    console.log(result);
   };
 
   const validateEmail = (emailOrPhone: string): boolean => {
@@ -113,6 +142,7 @@ function SignUpForm() {
                   휴대폰 번호 또는 이메일 주소
                 </InputText>
                 <Input
+                  name="email"
                   type="email"
                   value={emailOrPhone}
                   onChange={handleEmailChange}
@@ -135,6 +165,7 @@ function SignUpForm() {
               <Label>
                 <InputText>성명</InputText>
                 <Input
+                  name="name"
                   type="text"
                   value={fullname}
                   onChange={handleFullnameChange}
@@ -156,6 +187,7 @@ function SignUpForm() {
               <Label>
                 <InputText>사용자 이름</InputText>
                 <Input
+                  name="username"
                   type="text"
                   value={username}
                   onChange={handleUsernameChange}
@@ -178,6 +210,7 @@ function SignUpForm() {
                 <PwForm>
                   <InputText>비밀번호</InputText>
                   <Input
+                    name="pw"
                     type={passwordType.type}
                     value={password}
                     onChange={handlePasswordChange}
@@ -232,7 +265,7 @@ const FormBox = styled.div`
   border-color: #b2bec3;
   margin: 0 0 10px;
 `;
-const Form = styled.div`
+const Form = styled.form`
   width: 80%;
   display: flex;
   flex-direction: column;
