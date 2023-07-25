@@ -18,9 +18,28 @@ const PostForm: React.FC<PostFormProps> = ({ onSubmit }) => {
     setImage(file);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(caption, image);
+
+    const form = e.target as HTMLFormElement;
+    const imageInput = form.image as HTMLInputElement;
+    const imageFile = imageInput.files ? imageInput.files[0] : null;
+
+    const formData = new FormData();
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+    formData.append("content", caption);
+
+    const url = "http://localhost:8080/api/post/register";
+
+    const option = {
+      method: "POST",
+      body: formData,
+    };
+
+    const response = await fetch(url, option);
+    const result = await response.json();
   };
 
   return (
@@ -30,15 +49,13 @@ const PostForm: React.FC<PostFormProps> = ({ onSubmit }) => {
           <FormTitle>새 게시물 만들기</FormTitle>
         </TitleContainer>
 
-   
-
-
         <Form onSubmit={handleSubmit}>
           <FormGroup>
             <Label htmlFor="caption">캡션</Label>
             <CaptionInput
               type="text"
               id="caption"
+              name="content"
               value={caption}
               onChange={handleCaptionChange}
             />
@@ -48,7 +65,8 @@ const PostForm: React.FC<PostFormProps> = ({ onSubmit }) => {
             <ImageInput
               type="file"
               id="image"
-              accept="image/*"
+              name="image"
+              accept="image/jpeg, image/png"
               onChange={handleImageChange}
             />
           </FormGroup>
@@ -95,15 +113,11 @@ const TitleContainer = styled.div`
 `;
 
 const DragContainer = styled.div`
-    width : 479px;
-    height: 478.6px;
-    padding : 24px;
-`
-const 일단 = styled.div`
-
-    
-`
-
+  width: 479px;
+  height: 478.6px;
+  padding: 24px;
+`;
+const 일단 = styled.div``;
 
 const FormTitle = styled.div`
   font-size: 16px;
