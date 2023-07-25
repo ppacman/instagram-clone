@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import Content from "./components/Content";
 import Footer from "./components/Footer";
@@ -30,7 +31,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin: 0px 100px 0px 150px;
-
 `;
 const PageSet = styled.div`
   display: flex;
