@@ -1,31 +1,38 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import SideBar from '../sideBar/sideBar'
-import styled from 'styled-components';
+import styled, { DefaultTheme, StyledComponent } from 'styled-components';
 
 interface Props {
   children: React.ReactNode;
 }
+
+interface ContentProps {
+  hideSideBar: boolean;
+}
+
 const Layout = ({ children }: Props) => {
-    return (
-        <Container>
-          <Content>
-           <SideBar />
-            {children}
-            </Content>
-            </Container>
-    );
+  const router = useRouter();
+  const hideSideBarPages = ['/login', '/signUp'];
+  const hideSideBar = hideSideBarPages.includes(router.pathname);
+
+  return (
+    <Container>
+      {!hideSideBar && <SideBar />}
+      <Content hideSideBar={hideSideBar}>
+        {children}
+      </Content>
+    </Container>
+  );
 };
 
 export default Layout;
-
-
 
 const Container = styled.div`
   display: flex;
 `;
 
+const Content = styled.div<ContentProps>` 
 
-const Content = styled.div`
-  margin-left: 244.8px; /* SideBar 너비만큼 왼쪽 여백 설정 */
-  /* 추가적인 스타일 및 내용 컴포넌트에 대한 스타일 설정 */
+  margin-left: 244.8px;
 `;

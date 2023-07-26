@@ -33,7 +33,7 @@ justify-content: flex-start;
 
 const ImgWrapper = styled.div`
     position: fixed;
-    left : 500px;
+    left : 360px;
     top : 60px;
     width : 250px;
     height: 538.84px;
