@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import Image from "next/image";
-import instagramTypo from "../../../../public/img/instagramTypo.png";
+import instagramTypo from "../../../../public/img/instagramTypo.png"
 import facebook from "../../../../public/img/facebook.png";
 
 const LoginForm= () => {
@@ -33,10 +33,41 @@ const LoginForm= () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (event: any) => {
-    // 서버로 로그인 요청을 보냄
-  };
+  const handleSubmit = async (event :any) => {
+    event.preventDefault();
+    
+    // 로그인 요청을 보낼 백엔드 API 엔드포인트 주소
+    const backendLoginEndpoint = "https://localhost/api/login"; // 예시 주소, 실제 백엔드 주소로 교체해야 합니다.
 
+    // 로그인 요청에 필요한 데이터
+    const loginData = {
+      username: idValue,
+      password: pwValue,
+    };
+
+    try {
+      const response = await fetch(backendLoginEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      if (response.ok) {
+        // 로그인 성공 처리
+        const responseData = await response.json();
+        // 이후 로그인 상태 유지 등의 작업을 수행할 수 있습니다.
+      } else {
+        // 로그인 실패 처리
+        console.log("로그인 실패");
+        // 예를 들어, 사용자에게 로그인 실패를 알리는 메시지를 보여줄 수 있습니다.
+      }
+    } catch (error) {
+      console.error("로그인 요청 에러:", error);
+      // 네트워크 오류 등으로 요청이 실패한 경우에 대한 예외 처리를 수행할 수 있습니다.
+    }
+  };
   return (
     <FormWrraper>
       <TypoBox>
