@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
-import EditModal from "./components/EditModal";
+import EditModal from "../postForm/components/EditModal";
 
 const PostForm = () => {
   const [image, setImage] = useState<File | null>(null);
