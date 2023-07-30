@@ -37,7 +37,7 @@ const LoginForm= () => {
     event.preventDefault();
     
     // 로그인 요청을 보낼 백엔드 API 엔드포인트 주소
-    const backendLoginEndpoint = "https://localhost/api/login"; // 예시 주소, 실제 백엔드 주소로 교체해야 합니다.
+    const backendLoginEndpoint = "http://localhost:8080/api/login"; 
 
     // 로그인 요청에 필요한 데이터
     const loginData = {
