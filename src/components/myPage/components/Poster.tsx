@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PostItem from "./PostItem";
 
+
+interface UserPost {
+  imageSrc: string;
+ 
+}
 const Poster = () => {
-  const [userPosts, setUserPosts] = useState([]); // 유저의 게시물 데이터를 저장할 상태
+  const [userPosts, setUserPosts] = useState<UserPost[]>([]);
 
   useEffect(() => {
     // 백엔드로부터 유저의 게시물 데이터를 가져오는 비동기 함수 호출
@@ -25,22 +30,25 @@ const Poster = () => {
   }, []);
   
   return (
-    <Container>
-      <PostItemList>
-        <PostItem images={"/img/myPage/one.png"}  />
-        <PostItem images={"/img/myPage/2.png"} />
-        <PostItem images={"/img/myPage/3.png"} />
-        <PostItem images={"/img/myPage/4.png"} />
-        <PostItem images={"/img/myPage/5.png"} />
-        <PostItem images={"/img/myPage/6.png"} />
-        <PostItem images={"/img/myPage/4.png"} />
-        <PostItem images={"/img/myPage/5.png"} />
-        <PostItem images={"/img/myPage/6.png"} />
-        <PostItem images={"/img/myPage/4.png"} />
-        <PostItem images={"/img/myPage/5.png"} />
-        <PostItem images={"/img/myPage/6.png"} />
-      </PostItemList>
-    </Container>
+    // <Container>
+    //   <PostItemList>
+    //     <PostItem images={"/img/myPage/one.png"}  />
+    //     <PostItem images={"/img/myPage/2.png"} />
+    //     <PostItem images={"/img/myPage/3.png"} />
+    //     <PostItem images={"/img/myPage/4.png"} />
+    //     <PostItem images={"/img/myPage/5.png"} />
+    //     <PostItem images={"/img/myPage/6.png"} />
+        
+    //   </PostItemList>
+    // </Container>
+        <Container>
+        <PostItemList>
+          {userPosts.map((post, index) => (
+            <PostItem key={index} images={post.imageSrc} />
+          ))}
+        </PostItemList>
+      </Container>
+  
 
 
   );
