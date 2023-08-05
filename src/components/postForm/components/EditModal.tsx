@@ -15,13 +15,17 @@ const EditModal: React.FC<EditModalProps> = ({ image, handleClose }) => {
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const [expanded, setExpanded] = useState(false);
-
-  const [amount, setAmount] = useState<number>(0); // 글자 수를 상태로 관리합니다.
+  const [amount, setAmount] = useState<number>(0);
+  const [caption, setCaption] = useState<string>("");
 
   const handleCaptionChange = (value: string) => {
-    // 입력된 글자 수를 상태로 관리하여 표시합니다.
     const currentAmount = value.length;
     setAmount(currentAmount);
+    setCaption(value);
+  };
+
+  const getToken = () => {
+    return localStorage.getItem("token");
   };
 
   const [dragPosition, setDragPosition] = useState<{
@@ -54,7 +58,6 @@ const EditModal: React.FC<EditModalProps> = ({ image, handleClose }) => {
 
   const handleDragEnd = () => {
     if (dragPosition) {
-      // 이미지 위치 업데이트
       const imageContainer = imageContainerRef.current;
       if (imageContainer) {
         const imageRect = imageContainer.getBoundingClientRect();
@@ -62,15 +65,49 @@ const EditModal: React.FC<EditModalProps> = ({ image, handleClose }) => {
           x: imageRect.left + dragPosition.x,
           y: imageRect.top + dragPosition.y,
         };
-        // 여기서 업데이트된 위치를 사용하여 이미지를 실제로 이동시킬 수 있습니다.
-        // 예를 들면, 이미지를 스타일 속성으로 이동시킬 수 있습니다.
       }
     }
     setDragStart(null);
     setDragPosition(null);
   };
+
+  const handleFormSubmit = async () => {
+    try {
+      if (!previewImage) {
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("image", image);
+      formData.append("caption", caption);
+
+      const token = getToken();
+
+      const response = await fetch("http://localhost:8080/post/register", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        console.log("데이터가 백엔드로 성공적으로 전송되었습니다.");
+        handleClose();
+      } else {
+        console.error("데이터 전송 중 오류가 발생했습니다.");
+      }
+    } catch (error) {
+      console.error("오류가 발생했습니다:", error);
+    }
+  };
+
   const nextClick = () => {
-    setExpanded(true);
+    if (expanded) {
+      handleFormSubmit();
+    } else {
+      setExpanded(true);
+    }
   };
 
   const deleteClick = () => {
@@ -116,10 +153,10 @@ const EditModal: React.FC<EditModalProps> = ({ image, handleClose }) => {
             </Delete>
           </DeleteBox>
           <TitleContainer>
-            <Title>자르기</Title>
+            <Title>{expanded ? "새 게시물 만들기" : "자르기"}</Title>
           </TitleContainer>
           <NextContainer>
-            <Next onClick={nextClick}>다음</Next>
+            <Next onClick={nextClick}>{expanded ? "등록하기" : "다음"}</Next>
           </NextContainer>
         </TopContainer>
         <MainContent>
