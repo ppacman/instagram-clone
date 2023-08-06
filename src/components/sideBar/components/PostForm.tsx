@@ -37,7 +37,7 @@ const PostForm: React.FC<PostFormProps> = ({ onSubmit }) => {
       method: "POST",
       body: formData,
     };
-
+    console.log(option);
     const response = await fetch(url, option);
     const result = await response.json();
   };
