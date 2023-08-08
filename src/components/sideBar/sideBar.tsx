@@ -5,7 +5,7 @@ const SideBar = () => {
     return (
       <>
       <SideBox>
-        hello asshole
+      안녕하세염
       </SideBox>
       </>
     );
