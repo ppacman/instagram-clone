@@ -30,21 +30,11 @@ const Poster = () => {
   }, []);
 
   return (
-    // <Container>
-    //   <PostItemList>
-    //     <PostItem images={"/img/myPage/one.png"}  />
-    //     <PostItem images={"/img/myPage/2.png"} />
-    //     <PostItem images={"/img/myPage/3.png"} />
-    //     <PostItem images={"/img/myPage/4.png"} />
-    //     <PostItem images={"/img/myPage/5.png"} />
-    //     <PostItem images={"/img/myPage/6.png"} />
-
-    //   </PostItemList>
-    // </Container>
+   
     <Container>
       <PostItemList>
         {userPosts.map((post, index) => (
-          <PostItem key={index} imageBase64={post.image} />
+          <PostItem key={index} imageBase64={post.image} caption={post.content} />
         ))}
       </PostItemList>
     </Container>
@@ -54,18 +44,11 @@ const Poster = () => {
 export default Poster;
 
 const Container = styled.div``;
+
 const PostItemList = styled.div`
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
 `;
 
-{
-  /* <Container>
-<PostItemList>
-  {userPosts.map((post, index) => (
-    <PostItem key={index} images={post.imageSrc} />
-  ))}
-</PostItemList>
-</Container> */
-}
+
