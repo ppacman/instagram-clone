@@ -24,20 +24,21 @@ const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
   return (
     <>
       <Container>
-        <HoverDiv>
+        <HoverDiv onClick={handleImageClick}>
           <Items>
             {/*             
             <Image src={images} width="25" height="25" alt="" />
             <Image src={images} width="25" height="25" alt="" /> */}
           </Items>
         </HoverDiv>
+        <div>
         <Image
           src={`data:image/jpeg;base64,${imageBase64}`}
           width="309"
           height="309"
           alt=""
-          onClick={handleImageClick}
         />
+        </div>
         <svg
           aria-label="슬라이드"
           color="rgb(255, 255, 255)"
