@@ -36,6 +36,7 @@ const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
           width="309"
           height="309"
           alt=""
+          onClick={handleImageClick}
         />
         <svg
           aria-label="슬라이드"
