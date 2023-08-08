@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
 interface PostItemProps {
-  images: string;
+  imageBase64: string;
 }
 
-const PostItem = ({ images }: PostItemProps) => {
+const PostItem = ({ imageBase64 }: PostItemProps) => {
   return (
     <>
       <Container>
@@ -16,7 +16,12 @@ const PostItem = ({ images }: PostItemProps) => {
             <Image src={images} width="25" height="25" alt="" /> */}
           </Items>
         </HoverDiv>
-        <Image src={images} width="309" height="309" alt="" />
+        <Image
+          src={`data:image/jpeg;base64,${imageBase64}`}
+          width="309"
+          height="309"
+          alt=""
+        />
         <svg
           aria-label="슬라이드"
           color="rgb(255, 255, 255)"

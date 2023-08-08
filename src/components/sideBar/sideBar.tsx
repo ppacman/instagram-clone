@@ -20,9 +20,9 @@ import menu from "../../../public/img/menu.svg";
 import whiteProfile from "../../../public/img/whiteProfile.png";
 import blackProfile from "../../../public/img/blackProfile.png";
 import Modal from "./components/Modal";
-import PostForm from "./components/PostForm";
 import Router from "next/router";
 import { pathName } from "@/config/pathName";
+import PostForm from "../postForm/PostForm";
 const SideBar = () => {
   const [buttonStates, setButtonStates] = useState([
     true,
@@ -66,9 +66,7 @@ const SideBar = () => {
     };
   }, []);
 
-  function handleFormSubmit(caption: string, image: File | null): void {
-    throw new Error("Function not implemented.");
-  }
+
 
   const profileClick = () => {
     handleClick(7); // 프로필 메뉴 클릭 상태로 설정
@@ -82,7 +80,7 @@ const SideBar = () => {
 
   return (
     <>
-      {postState && <PostForm onSubmit={handleFormSubmit} />}
+      {postState && <PostForm />}
       {modalState && <Modal />}
 
       <SideBox>

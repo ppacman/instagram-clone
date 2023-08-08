@@ -2,19 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import Image from "next/image";
-import instagramTypo from "../../../../public/img/instagramTypo.png"
+import instagramTypo from "../../../../public/img/instagramTypo.png";
 import facebook from "../../../../public/img/facebook.png";
 
-const LoginForm= () => {
+const LoginForm = () => {
   const [idValue, setIdValue] = useState("");
   const [pwValue, setPwValue] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [validPw, setValidPw] = useState(false);
   const [validId, setValidId] = useState(false);
- 
+
   const handleIdChange = (event: any) => {
     setIdValue(event.target.value);
-    if (event.target.value.length > 0) {  
+    if (event.target.value.length > 0) {
       setValidId(true);
     } else {
       setValidId(false);
@@ -33,10 +33,36 @@ const LoginForm= () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (event: any) => {
-    // 서버로 로그인 요청을 보냄
-  };
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
 
+    const backendLoginEndpoint = "http://localhost:8080/api/login";
+
+    const loginData = {
+      username: idValue,
+      password: pwValue,
+    };
+
+    try {
+      const response = await fetch(backendLoginEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        localStorage.setItem('token', responseData.token);
+        console.log('token')
+      } else {
+        console.log("로그인 실패");
+      }
+    } catch (error) {
+      console.error("로그인 요청 에러:", error);
+    }
+  };
   return (
     <FormWrraper>
       <TypoBox>
@@ -86,7 +112,7 @@ const LoginForm= () => {
           <LoginDiv>
             <LoginBtn
               disabled={!(validId && validPw)}
-              className={(validId && validPw) ? "" : "unvalid"}
+              className={validId && validPw ? "" : "unvalid"}
               onClick={handleSubmit}
               type="submit"
             >
@@ -100,16 +126,16 @@ const LoginForm= () => {
           <Line />
         </LineDiv>
         <Link href="https://www.facebook.com/login.php?skip_api_login=1&api_key=124024574287414&kid_directed_site=0&app_id=124024574287414&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Foauth%3Fclient_id%3D124024574287414%26redirect_uri%3Dhttps%253A%252F%252Fwww.instagram.com%252Faccounts%252Fsignup%252F%26state%3D%257B%2522fbLoginKey%2522%253A%25221ea3by51hnuces29wpzb1tmddf81bip84llfgrs8iygqbbxq1h9t%2522%252C%2522fbLoginReturnURL%2522%253A%2522%252Ffxcal%252Fdisclosure%252F%253Fnext%253D%25252F%2522%257D%26scope%3Demail%26response_type%3Dcode%252Cgranted_scopes%26locale%3Dko_KR%26ret%3Dlogin%26fbapp_pres%3D0%26logger_id%3Dd72a7b0a-343e-4e4f-86b2-40d9e7c0e6bb%26tp%3Dunspecified&cancel_url=https%3A%2F%2Fwww.instagram.com%2Faccounts%2Fsignup%2F%3Ferror%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied%26state%3D%257B%2522fbLoginKey%2522%253A%25221ea3by51hnuces29wpzb1tmddf81bip84llfgrs8iygqbbxq1h9t%2522%252C%2522fbLoginReturnURL%2522%253A%2522%252Ffxcal%252Fdisclosure%252F%253Fnext%253D%25252F%2522%257D%23_%3D_&display=page&locale=ko_KR&pl_dbl=0">
-        <FacebookDiv>
-          <Image
-            src={facebook}
-            alt={""}
-            width={20}
-            height={20}
-            margin-right="8px"
-          />
-          <FacebookTypo>Facebook으로 로그인</FacebookTypo>
-        </FacebookDiv>
+          <FacebookDiv>
+            <Image
+              src={facebook}
+              alt={""}
+              width={20}
+              height={20}
+              margin-right="8px"
+            />
+            <FacebookTypo>Facebook으로 로그인</FacebookTypo>
+          </FacebookDiv>
         </Link>
       </DivWrraper>
       <FindPw> 비밀번호를 잊으셨나요?</FindPw>
@@ -372,5 +398,5 @@ const FindPw = styled.a`
   cursor: pointer;
 `;
 const Link = styled.a`
- text-decoration: none;
-`
+  text-decoration: none;
+`;
