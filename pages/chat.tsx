@@ -1,10 +1,10 @@
 import React from "react";
-import ChatComponent from "@/components/chat/component/ChatComponent";
+import CreateRoom from "@/components/chat/component/createRoom";
 
 const chat = () => {
   return (
     <>
-      <ChatComponent userName={""} roomId={""} />
+     <CreateRoom />
     </>
   );
 };

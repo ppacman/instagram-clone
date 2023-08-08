@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { SetNameBox } from "../styled";
-import ChatComponent from "./chat";
+import ChatComponent from "./ChatComponent";
 
-function SetName() {
+function CreateRoom() {
   const [userName, setUserName] = useState<string>("");
   const [roomId, setRoomId] = useState<string>("");
   const [isNameSet, setIsNameSet] = useState<boolean>(false); // 이름이 설정되었는지 여부를 관리
@@ -43,4 +43,4 @@ function SetName() {
   );
 }
 
-export default SetName;
+export default CreateRoom;
