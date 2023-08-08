@@ -79,11 +79,11 @@ const EditModal: React.FC<EditModalProps> = ({ image, handleClose }) => {
 
       const formData = new FormData();
       formData.append("image", image);
-      formData.append("caption", caption);
+      formData.append("content", caption);
 
       const token = getToken();
 
-      const response = await fetch("http://localhost:8080/post/register", {
+      const response = await fetch("http://localhost:8080/api/post/register", {
         method: "POST",
         body: formData,
         headers: {
