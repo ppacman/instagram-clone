@@ -52,7 +52,7 @@ const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
         </svg>
       </Container>
       {modalOpen && (
-        <MyDetailPage image={imageBase64} caption={caption} onClose={handleCloseModal} />
+        <MyDetailPage image={`data:image/jpeg;base64,${imageBase64}`} caption={caption} onClose={handleCloseModal} />
       )}
     </>
   );
