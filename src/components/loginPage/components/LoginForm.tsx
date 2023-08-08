@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import Image from "next/image";
-import instagramTypo from "../../../../public/img/instagramTypo.png";
+import instagramTypo from "../../../../public/img/instagramTypo.png"
 import facebook from "../../../../public/img/facebook.png";
 
 const LoginForm= () => {

@@ -1,4 +1,4 @@
-import React, { useState ,useEffect, useRef, forwardRef} from "react";
+import React, { useState, useEffect, useRef, forwardRef } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import instagramTypo from "../../../public/img/instagramTypo.png";
@@ -20,8 +20,9 @@ import menu from "../../../public/img/menu.svg";
 import whiteProfile from "../../../public/img/whiteProfile.png";
 import blackProfile from "../../../public/img/blackProfile.png";
 import Modal from "./components/Modal";
-
-
+import PostForm from "./components/PostForm";
+import Router from "next/router";
+import { pathName } from "@/config/pathName";
 const SideBar = () => {
   const [buttonStates, setButtonStates] = useState([
     true,
@@ -36,7 +37,6 @@ const SideBar = () => {
   const [modalState, setModalState] = useState(false);
   const [postState, setPostState] = useState(false);
 
-
   const handleClick = (index: number) => {
     const newButtonStates = [...buttonStates];
     newButtonStates.fill(false); // 모든 버튼 상태를 false로 초기화
@@ -46,26 +46,45 @@ const SideBar = () => {
   const modalClick = () => {
     setModalState(!modalState);
   };
-  const postClick = ()=>{
+  const postClick = () => {
     setPostState(!postState);
     handleClick(6);
-  }
+  };
 
-
-
-  const handleKeyDown = (event : any) => {
-    if (event.key === 'Escape') {
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Escape") {
       // ESC 키를 누르면 모달 닫기
       setModalState(false);
+      setPostState(false);
     }
   };
-  
- 
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown); // keyDown 이벤트 등록
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown); // 컴포넌트 언마운트 시 이벤트 제거
+    };
+  }, []);
+
+  function handleFormSubmit(caption: string, image: File | null): void {
+    throw new Error("Function not implemented.");
+  }
+
+  const profileClick = () => {
+    handleClick(7); // 프로필 메뉴 클릭 상태로 설정
+    Router.push(pathName.MYPAGE); // 프로필 페이지로 이동
+  };
+
+  const mainClick = () => {
+    handleClick(0);
+    Router.push(pathName.MAIN);
+  };
+
   return (
     <>
-      {modalState && (
-       <Modal  />
-      )}
+      {postState && <PostForm onSubmit={handleFormSubmit} />}
+      {modalState && <Modal />}
+
       <SideBox>
         <LogoBox>
           <Typo>
@@ -74,7 +93,7 @@ const SideBar = () => {
         </LogoBox>
         <MenuWrapper>
           <MenuBox>
-            <Menu onClick={() => handleClick(0)}>
+            <Menu onClick={mainClick}>
               {buttonStates[0] ? (
                 <Image src={blackHome} alt={""} width={27} height={27} />
               ) : (
@@ -145,7 +164,7 @@ const SideBar = () => {
             </Menu>
           </MenuBox>
           <MenuBox>
-            <Menu onClick={() =>handleClick(7)}>
+            <Menu onClick={profileClick}>
               {buttonStates[7] ? (
                 <Image src={blackProfile} alt={""} width={27} height={27} />
               ) : (
@@ -160,7 +179,6 @@ const SideBar = () => {
           <MenuTypo active={modalState}>더 보기</MenuTypo>
         </Menu>
       </SideBox>
-      
     </>
   );
 };
@@ -177,15 +195,24 @@ const SideBox = styled.div`
   padding: 8px 12px 20px 12px;
   flex-direction: column;
   align-items: flex-start;
+  position: fixed;
+  top: 0;
+  left: 0;
 `;
 
 const LogoBox = styled.div`
   width: 220px;
   height: 92px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: start;
 `;
 const Typo = styled.div`
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: start;
 `;
 
 const MenuWrapper = styled.div`
@@ -239,4 +266,3 @@ const MenuTypo = styled.div<{ active: boolean }>`
   align-items: center;
   font-weight: ${(props) => (props.active ? "bold" : "400")};
 `;
-
