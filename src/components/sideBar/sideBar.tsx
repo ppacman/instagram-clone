@@ -78,6 +78,11 @@ const SideBar = () => {
     Router.push(pathName.MAIN);
   };
 
+  const dmClick = () =>{
+    handleClick(4);
+    Router.push(pathName.CHAT)
+  }
+
   return (
     <>
       {postState && <PostForm />}
@@ -132,7 +137,7 @@ const SideBar = () => {
             </Menu>
           </MenuBox>
           <MenuBox>
-            <Menu onClick={() => handleClick(4)}>
+            <Menu onClick={() => dmClick()}>
               {buttonStates[4] ? (
                 <Image src={blackDm} alt={""} width={25} height={25} />
               ) : (
@@ -168,7 +173,7 @@ const SideBar = () => {
               ) : (
                 <Image src={whiteProfile} alt={""} width={27} height={27} />
               )}
-              <MenuTypo active={buttonStates[7]}>프로필</MenuTypo>
+              <MenuTypo active={buttonStates[7]}>프로필</MenuTypo> 
             </Menu>
           </MenuBox>
         </MenuWrapper>

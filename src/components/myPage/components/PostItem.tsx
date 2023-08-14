@@ -1,27 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
+import MyDetailPage from "@/components/myDetailPage/MyDetailPage";
+
+
 interface PostItemProps {
   imageBase64: string;
+  caption: string;
 }
 
-const PostItem = ({ imageBase64 }: PostItemProps) => {
+const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleImageClick = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+  
   return (
     <>
       <Container>
-        <HoverDiv>
+        <HoverDiv onClick={handleImageClick}>
           <Items>
             {/*             
             <Image src={images} width="25" height="25" alt="" />
             <Image src={images} width="25" height="25" alt="" /> */}
           </Items>
         </HoverDiv>
+        <div>
         <Image
           src={`data:image/jpeg;base64,${imageBase64}`}
           width="309"
           height="309"
           alt=""
         />
+        </div>
         <svg
           aria-label="슬라이드"
           color="rgb(255, 255, 255)"
@@ -34,6 +51,9 @@ const PostItem = ({ imageBase64 }: PostItemProps) => {
           <path d="M34.8 29.7V11c0-2.9-2.3-5.2-5.2-5.2H11c-2.9 0-5.2 2.3-5.2 5.2v18.7c0 2.9 2.3 5.2 5.2 5.2h18.7c2.8-.1 5.1-2.4 5.1-5.2zM39.2 15v16.1c0 4.5-3.7 8.2-8.2 8.2H14.9c-.6 0-.9.7-.5 1.1 1 1.1 2.4 1.8 4.1 1.8h13.4c5.7 0 10.3-4.6 10.3-10.3V18.5c0-1.6-.7-3.1-1.8-4.1-.5-.4-1.2 0-1.2.6z"></path>
         </svg>
       </Container>
+      {modalOpen && (
+        <MyDetailPage image={`data:image/jpeg;base64,${imageBase64}`} caption={caption} onClose={handleCloseModal} />
+      )}
     </>
   );
 };
