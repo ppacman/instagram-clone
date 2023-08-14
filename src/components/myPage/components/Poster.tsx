@@ -10,14 +10,13 @@ const Poster = () => {
   const [userPosts, setUserPosts] = useState<UserPost[]>([]);
 
   useEffect(() => {
-    // 백엔드로부터 유저의 게시물 데이터를 가져오는 비동기 함수 호출
+   
     const fetchUserPosts = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/post/all"); // 실제 백엔드 API 주소로 대체
+        const response = await fetch("http://localhost:8080/api/post/all"); 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
-          setUserPosts(data); // 받아온 데이터로 유저의 게시물 데이터 업데이트
+          setUserPosts(data); 
         } else {
           console.error("데이터 가져오기 실패");
         }
