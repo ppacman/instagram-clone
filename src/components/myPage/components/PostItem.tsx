@@ -12,6 +12,8 @@ const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [postId, setPostId] = useState<number>(0);
 
+
+  
   useEffect(() => {
     fetchPostId().then((data) => {
       setPostId(data.postId);

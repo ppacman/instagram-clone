@@ -32,7 +32,7 @@ const MyDetailPage: React.FC<ModalProps> = ({
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/comments/${postId}`);
+      const response = await axios.get(`http://localhost:8080/api/post/${postId}/comment`);
       const postComments = response.data;
       setComments(postComments);
     } catch (error) {
