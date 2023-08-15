@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import whiteProfile from "../../../public/img/whiteProfile.png";
+import axios from "axios";
 
 interface ModalProps {
   image: string;
@@ -10,9 +11,18 @@ interface ModalProps {
   onClose: () => void;
 }
 
-const MyDetailPage: React.FC<ModalProps> = ({  postId, image, caption, onClose }) => {
+interface ChatProps {
+  commentText: boolean;
+}
+const MyDetailPage: React.FC<ModalProps> = ({
+  postId,
+  image,
+  caption,
+  onClose,
+}) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
+  const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
     // 포스트 정보 및 좋아요 상태를 가져오는 함수 호출
@@ -21,7 +31,9 @@ const MyDetailPage: React.FC<ModalProps> = ({  postId, image, caption, onClose }
 
   const fetchPostInfo = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/post/${postId}`);
+      const response = await axios.get(
+        `http://localhost:8080/api/post/${postId}`
+      );
       const postData = response.data;
       setIsLiked(postData.isLiked);
       setLikeCount(postData.likeCount);
@@ -33,12 +45,10 @@ const MyDetailPage: React.FC<ModalProps> = ({  postId, image, caption, onClose }
   const toggleLike = async () => {
     try {
       if (isLiked) {
-        // 이미 좋아요가 눌린 경우, 좋아요 취소 요청
         await axios.post(`http://localhost:8080/api/post/${postId}/unlike`);
         setIsLiked(false);
         setLikeCount(likeCount - 1);
       } else {
-        // 좋아요 누르기 요청
         await axios.post(`http://localhost:8080/api/post/${postId}/like`);
         setIsLiked(true);
         setLikeCount(likeCount + 1);
@@ -129,12 +139,12 @@ const MyDetailPage: React.FC<ModalProps> = ({  postId, image, caption, onClose }
           </CommentWrapper>
           <AdditionalWrapper>
             <SvgLine>
-              <SvgBox>
+              <SvgBox onClick={toggleLike}>
                 <svg
                   aria-label="좋아요"
                   className="x1lliihq x1n2onr6"
-                  color="rgb(38, 38, 38)"
-                  fill="rgb(38, 38, 38)"
+                  color={isLiked ? "rgb(255, 0, 0)" : "rgb(38, 38, 38)"}
+                  fill={isLiked ? "rgb(255, 0, 0)" : "rgb(38, 38, 38)"}
                   height="24"
                   role="img"
                   viewBox="0 0 24 24"
@@ -219,7 +229,7 @@ const MyDetailPage: React.FC<ModalProps> = ({  postId, image, caption, onClose }
                 </svg>
               </SaveSvgBox>
             </SvgLine>
-            <LikeLine>filos님 외 4,234,090명이 좋아합니다</LikeLine>
+            <LikeLine>filos님 외 {likeCount}명이 좋아합니다</LikeLine>
             <PostDateLine>2022년 7월 30일</PostDateLine>
           </AdditionalWrapper>
           <WriteCommentLine>
@@ -238,6 +248,20 @@ const MyDetailPage: React.FC<ModalProps> = ({  postId, image, caption, onClose }
                 <path d="M15.83 10.997a1.167 1.167 0 1 0 1.167 1.167 1.167 1.167 0 0 0-1.167-1.167Zm-6.5 1.167a1.167 1.167 0 1 0-1.166 1.167 1.167 1.167 0 0 0 1.166-1.167Zm5.163 3.24a3.406 3.406 0 0 1-4.982.007 1 1 0 1 0-1.557 1.256 5.397 5.397 0 0 0 8.09 0 1 1 0 0 0-1.55-1.263ZM12 .503a11.5 11.5 0 1 0 11.5 11.5A11.513 11.513 0 0 0 12 .503Zm0 21a9.5 9.5 0 1 1 9.5-9.5 9.51 9.51 0 0 1-9.5 9.5Z"></path>
               </svg>
             </IconSvgBox>
+            <CommentInput
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              placeholder="댓글 달기..."
+            />
+            <CommentBtnBox
+              disabled={!commentText}
+              style={{
+                color: commentText ? "rgb(0, 149, 246)" : "rgb(217, 237, 255)",
+              }}
+              commentText={commentText.length === 0}
+            >
+              게시
+            </CommentBtnBox>
           </WriteCommentLine>
         </Wrapper>
       </ModalContent>
@@ -419,12 +443,18 @@ const SvgBox = styled.div`
   height: 24px;
   width: 24px;
   padding: 8px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const SaveSvgBox = styled.div`
   height: 24px;
   width: 24px;
   padding: 8px;
   margin-left: 325px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const LikeLine = styled.div`
   width: 467px;
@@ -451,4 +481,27 @@ const IconSvgBox = styled.div`
   width: 24px;
   height: 24px;
   padding: 8px 16px 8px 16px;
+`;
+const CommentInput = styled.textarea`
+  width: 391px;
+  height: 18px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  overflow: hidden;
+  resize: none;
+`;
+const CommentBtnBox = styled.button<ChatProps>`
+  width: 50px;
+  height: 18px;
+  margin-left: 8px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: none;
+  color: rgb(0, 149, 246);
+  font-weight: 600;
+  cursor: ${(props) => (props.commentText ? "default" : "pointer")};
 `;
