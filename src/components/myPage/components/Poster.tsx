@@ -5,6 +5,7 @@ import PostItem from "./PostItem";
 interface UserPost {
   image: string;
   content: string;
+  postId : number;
 }
 const Poster = () => {
   const [userPosts, setUserPosts] = useState<UserPost[]>([]);
@@ -33,7 +34,7 @@ const Poster = () => {
     <Container>
       <PostItemList>
         {userPosts.map((post, index) => (
-          <PostItem key={index} imageBase64={post.image} caption={post.content} />
+          <PostItem key={index} imageBase64={post.image} caption={post.content}  postId={post.postId} />
         ))}
       </PostItemList>
     </Container>
