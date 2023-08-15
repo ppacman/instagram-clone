@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import MyDetailPage from "@/components/myDetailPage/MyDetailPage";
-
 
 interface PostItemProps {
   imageBase64: string;
@@ -10,8 +9,8 @@ interface PostItemProps {
 }
 
 const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
-
   const [modalOpen, setModalOpen] = useState(false);
+  const [postId, setPostId] =useState<number>(0);
 
   const handleImageClick = () => {
     setModalOpen(true);
@@ -20,7 +19,22 @@ const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
   const handleCloseModal = () => {
     setModalOpen(false);
   };
-  
+  useEffect(() => {
+    
+    fetchPostId().then((data) => {
+      setPostId(data.postId); 
+    });
+  }, []);
+
+  const fetchPostId = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/post/all"); 
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching postId:", error);
+    }
+  };
   return (
     <>
       <Container>
@@ -32,12 +46,12 @@ const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
           </Items>
         </HoverDiv>
         <div>
-        <Image
-          src={`data:image/jpeg;base64,${imageBase64}`}
-          width="309"
-          height="309"
-          alt=""
-        />
+          <Image
+            src={`data:image/jpeg;base64,${imageBase64}`}
+            width="309"
+            height="309"
+            alt=""
+          />
         </div>
         <svg
           aria-label="슬라이드"
@@ -52,7 +66,12 @@ const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
         </svg>
       </Container>
       {modalOpen && (
-        <MyDetailPage image={`data:image/jpeg;base64,${imageBase64}`} caption={caption} onClose={handleCloseModal} />
+        <MyDetailPage
+          image={`data:image/jpeg;base64,${imageBase64}`}
+          caption={caption}
+          onClose={handleCloseModal}
+          postId={postId}
+        />
       )}
     </>
   );
