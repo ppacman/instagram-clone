@@ -23,11 +23,22 @@ const MyDetailPage: React.FC<ModalProps> = ({
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [commentText, setCommentText] = useState("");
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    // 포스트 정보 및 좋아요 상태를 가져오는 함수 호출
     fetchPostInfo();
+    fetchComments();
   }, []);
+
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/comments/${postId}`);
+      const postComments = response.data;
+      setComments(postComments);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
 
   const fetchPostInfo = async () => {
     try {
@@ -55,6 +66,29 @@ const MyDetailPage: React.FC<ModalProps> = ({
       }
     } catch (error) {
       console.error("Error toggling like:", error);
+    }
+  };
+
+  
+  const sendComment = async () => {
+    try {
+      if (commentText.trim() === "") {
+        return;
+      }
+
+      const response = await axios.post("http://localhost:8080/api/comments", {
+        postId,
+        commentText,
+      });
+
+      const newComment = response.data.comment;
+
+      // 여기서 newComment를 어떻게 처리할지 결정하면 됩니다.
+      // 예를 들어 댓글 목록에 추가하거나 다시 댓글을 가져오는 함수 호출 등이 가능합니다.
+
+      setCommentText(""); // 댓글 입력창 초기화
+    } catch (error) {
+      console.error("Error sending comment:", error);
     }
   };
 
@@ -122,13 +156,14 @@ const MyDetailPage: React.FC<ModalProps> = ({
                 <Date>
                   59주 전 <ReComment>답글달기</ReComment>
                 </Date>
-              </CommentBox>
+              </CommentBox> 
             </CommentLine>{" "}
             <CommentLine>
               <Image src={whiteProfile} alt={""} width={32} height={32} />
               <CommentBox>
                 <Comment>
                   <strong>ppac__man</strong>{" "}
+
                   <CommentSpan>댓글을 표시할겁니다</CommentSpan>
                 </Comment>
                 <Date>
@@ -259,6 +294,7 @@ const MyDetailPage: React.FC<ModalProps> = ({
                 color: commentText ? "rgb(0, 149, 246)" : "rgb(217, 237, 255)",
               }}
               commentText={commentText.length === 0}
+              onClick={sendComment}
             >
               게시
             </CommentBtnBox>

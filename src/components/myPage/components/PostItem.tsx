@@ -10,7 +10,13 @@ interface PostItemProps {
 
 const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [postId, setPostId] =useState<number>(0);
+  const [postId, setPostId] = useState<number>(0);
+
+  useEffect(() => {
+    fetchPostId().then((data) => {
+      setPostId(data.postId);
+    });
+  }, []);
 
   const handleImageClick = () => {
     setModalOpen(true);
@@ -19,16 +25,10 @@ const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
   const handleCloseModal = () => {
     setModalOpen(false);
   };
-  useEffect(() => {
-    
-    fetchPostId().then((data) => {
-      setPostId(data.postId); 
-    });
-  }, []);
 
   const fetchPostId = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/post/all"); 
+      const response = await fetch("http://localhost:8080/api/post/all");
       const data = await response.json();
       return data;
     } catch (error) {
@@ -66,18 +66,30 @@ const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
         </svg>
       </Container>
       {modalOpen && (
-        <MyDetailPage
-          image={`data:image/jpeg;base64,${imageBase64}`}
-          caption={caption}
-          onClose={handleCloseModal}
-          postId={postId}
-        />
+        <>
+          <ModalOverlay onClick={handleCloseModal} />
+          <MyDetailPage
+            image={`data:image/jpeg;base64,${imageBase64}`}
+            caption={caption}
+            onClose={handleCloseModal}
+            postId={postId}
+          />
+        </>
       )}
     </>
   );
 };
-
 export default PostItem;
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+`;
+
 const Container = styled.div`
   display: flex;
   justify-content: end;
