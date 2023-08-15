@@ -6,19 +6,13 @@ import MyDetailPage from "@/components/myDetailPage/MyDetailPage";
 interface PostItemProps {
   imageBase64: string;
   caption: string;
+  postId: number; 
 }
 
-const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
+const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption, postId }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [postId, setPostId] = useState<number>(0);
-
-
   
-  useEffect(() => {
-    fetchPostId().then((data) => {
-      setPostId(data.postId);
-    });
-  }, []);
+
 
   const handleImageClick = () => {
     setModalOpen(true);
@@ -28,15 +22,6 @@ const PostItem: React.FC<PostItemProps> = ({ imageBase64, caption }) => {
     setModalOpen(false);
   };
 
-  const fetchPostId = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/api/post/all");
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching postId:", error);
-    }
-  };
   return (
     <>
       <Container>
