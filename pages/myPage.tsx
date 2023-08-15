@@ -5,7 +5,7 @@ import MyDetailPage from "@/components/myDetailPage/MyDetailPage";
 const myPage = () => {
   return (
     <>
-      <MyDetailPage />
+      <MyPage />
     </>
   );
 };
