@@ -10,6 +10,13 @@ interface ModalProps {
   postId: number;
   onClose: () => void;
 }
+// interface CommentList {
+//   commentList: Array<Comment>;
+// }
+// interface Comment {
+//   commentId: number;
+//   content: string;
+// }
 
 interface ChatProps {
   commentText: boolean;
@@ -22,7 +29,7 @@ const MyDetailPage: React.FC<ModalProps> = ({
 }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-  const [commentText, setCommentText] = useState("");
+  const [content, setCommentText] = useState("");
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -32,8 +39,11 @@ const MyDetailPage: React.FC<ModalProps> = ({
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/post/${postId}/comment`);
+      const response = await axios.get(
+        `http://localhost:8080/api/post/${postId}/comment`
+      );
       const postComments = response.data;
+      console.log(postComments);
       setComments(postComments);
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -69,31 +79,26 @@ const MyDetailPage: React.FC<ModalProps> = ({
     }
   };
 
-  
   const sendComment = async () => {
     try {
-      if (commentText.trim() === "") {
+      if (content.trim() === "") {
         return;
       }
 
-      const response = await axios.post("http://localhost:8080/api/comments", {
+      await axios.post(`http://localhost:8080/api/post/${postId}/comment`, {
         postId,
-        commentText,
+        content,
       });
 
-      const newComment = response.data.comment;
-
-      // 여기서 newComment를 어떻게 처리할지 결정하면 됩니다.
-      // 예를 들어 댓글 목록에 추가하거나 다시 댓글을 가져오는 함수 호출 등이 가능합니다.
-
-      setCommentText(""); // 댓글 입력창 초기화
+      fetchComments();
+      setCommentText("");
     } catch (error) {
       console.error("Error sending comment:", error);
     }
   };
 
   return (
-    <ModalOverlay onClick={onClose}>
+    <ModalOverlay>
       <ModalContent>
         <ImageContainer>
           <ContentImage src={image} alt="" />
@@ -134,43 +139,20 @@ const MyDetailPage: React.FC<ModalProps> = ({
                 <Date>59주 전</Date>
               </CaptionBox>
             </CaptionWrapper>
-            <CommentLine>
-              <Image src={whiteProfile} alt={""} width={32} height={32} />
-              <CommentBox>
-                <Comment>
-                  <strong>ppac__man</strong>{" "}
-                  <CommentSpan>댓글을 표시할겁니다</CommentSpan>
-                </Comment>
-                <Date>
-                  59주 전 <ReComment>답글달기</ReComment>
-                </Date>
-              </CommentBox>
-            </CommentLine>
-            <CommentLine>
-              <Image src={whiteProfile} alt={""} width={32} height={32} />
-              <CommentBox>
-                <Comment>
-                  <strong>ppac__man</strong>{" "}
-                  <CommentSpan>댓글을 표시할겁니다</CommentSpan>
-                </Comment>
-                <Date>
-                  59주 전 <ReComment>답글달기</ReComment>
-                </Date>
-              </CommentBox> 
-            </CommentLine>{" "}
-            <CommentLine>
-              <Image src={whiteProfile} alt={""} width={32} height={32} />
-              <CommentBox>
-                <Comment>
-                  <strong>ppac__man</strong>{" "}
-
-                  <CommentSpan>댓글을 표시할겁니다</CommentSpan>
-                </Comment>
-                <Date>
-                  59주 전 <ReComment>답글달기</ReComment>
-                </Date>
-              </CommentBox>
-            </CommentLine>
+            {comments.map((comment: any) => (
+              <CommentLine key={comment.id}>
+                <Image src={whiteProfile} alt="" width={32} height={32} />
+                <CommentBox>
+                  <Comment>
+                    <strong>{comment.username}</strong>{" "}
+                    <CommentSpan>{comment.content}</CommentSpan>
+                  </Comment>
+                  <Date>
+                    {comment.date} <ReComment>답글달기</ReComment>
+                  </Date>
+                </CommentBox>
+              </CommentLine>
+            ))}
           </CommentWrapper>
           <AdditionalWrapper>
             <SvgLine>
@@ -284,16 +266,16 @@ const MyDetailPage: React.FC<ModalProps> = ({
               </svg>
             </IconSvgBox>
             <CommentInput
-              value={commentText}
+              value={content}
               onChange={(e) => setCommentText(e.target.value)}
               placeholder="댓글 달기..."
             />
             <CommentBtnBox
-              disabled={!commentText}
+              disabled={!content}
               style={{
-                color: commentText ? "rgb(0, 149, 246)" : "rgb(217, 237, 255)",
+                color: content ? "rgb(0, 149, 246)" : "rgb(217, 237, 255)",
               }}
-              commentText={commentText.length === 0}
+              commentText={content.length === 0}
               onClick={sendComment}
             >
               게시
