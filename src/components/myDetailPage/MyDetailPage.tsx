@@ -26,21 +26,21 @@ const MyDetailPage: React.FC<ModalProps> = ({
 
   useEffect(() => {
     fetchPostInfo();
-    fetchComments();
+    // fetchComments();
   }, []);
 
-  const fetchComments = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/post/${postId}/comment`
-      );
-      const postComments = response.data;
-      console.log(postComments);
-      setComments(postComments);
-    } catch (error) {
-      console.error("Error fetching comments:", error);
-    }
-  };
+  // const fetchComments = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:8080/api/post/${postId}/comment`
+  //     );
+  //     const postComments = response.data;
+  //     console.log(postComments);
+  //     setComments(postComments);
+  //   } catch (error) {
+  //     console.error("Error fetching comments:", error);
+  //   }
+  // };
 
   const fetchPostInfo = async () => {
     try {
@@ -48,8 +48,10 @@ const MyDetailPage: React.FC<ModalProps> = ({
         `http://localhost:8080/api/post/${postId}`
       );
       const postData = response.data;
+      console.log(postData);
       setIsLiked(postData.isLiked);
       setLikeCount(postData.likeCount);
+      setComments(postData.comments);
     } catch (error) {
       console.error("Error fetching post info:", error);
     }
@@ -81,9 +83,8 @@ const MyDetailPage: React.FC<ModalProps> = ({
         postId,
         content,
       });
-
-      fetchComments();
       setCommentText("");
+      fetchPostInfo();
     } catch (error) {
       console.error("Error sending comment:", error);
     }

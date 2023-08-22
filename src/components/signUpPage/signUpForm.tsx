@@ -95,8 +95,9 @@ function SignUpForm() {
       };
 
       const response = await fetch(endpoint, options);
-
-      () => handleRouter(pathName.SIGNUP);
+      if (response.ok) {
+        handleRouter(pathName.LOGIN);
+      }
     } catch (error) {
       console.error("Error sending comment:", error);
     }

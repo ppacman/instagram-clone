@@ -5,19 +5,18 @@ import PostItem from "./PostItem";
 interface UserPost {
   image: string;
   content: string;
-  postId : number;
+  postId: number;
 }
 const Poster = () => {
   const [userPosts, setUserPosts] = useState<UserPost[]>([]);
 
   useEffect(() => {
-   
     const fetchUserPosts = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/post/all"); 
+        const response = await fetch("http://localhost:8080/api/post/all");
         if (response.ok) {
           const data = await response.json();
-          setUserPosts(data); 
+          setUserPosts(data);
         } else {
           console.error("데이터 가져오기 실패");
         }
@@ -25,16 +24,19 @@ const Poster = () => {
         console.error("오류 발생:", error);
       }
     };
-
     fetchUserPosts();
   }, []);
 
   return (
-   
     <Container>
       <PostItemList>
         {userPosts.map((post, index) => (
-          <PostItem key={index} imageBase64={post.image} caption={post.content}  postId={post.postId} />
+          <PostItem
+            key={index}
+            imageBase64={post.image}
+            caption={post.content}
+            postId={post.postId}
+          />
         ))}
       </PostItemList>
     </Container>
@@ -50,5 +52,3 @@ const PostItemList = styled.div`
   gap: 4px;
   flex-wrap: wrap;
 `;
-
-

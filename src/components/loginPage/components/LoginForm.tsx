@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import instagramTypo from "../../../../public/img/instagramTypo.png";
 import facebook from "../../../../public/img/facebook.png";
+import Router from "next/router";
+import { pathName } from "../../../config/pathName";
 
 const LoginForm = () => {
   const [idValue, setIdValue] = useState("");
@@ -11,6 +13,10 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [validPw, setValidPw] = useState(false);
   const [validId, setValidId] = useState(false);
+
+  const handleRouter = (router: string) => {
+    Router.push(router);
+  };
 
   const handleIdChange = (event: any) => {
     setIdValue(event.target.value);
@@ -39,7 +45,7 @@ const LoginForm = () => {
     const backendLoginEndpoint = "http://localhost:8080/api/login";
 
     const loginData = {
-      username: idValue,
+      email: idValue,
       password: pwValue,
     };
 
@@ -51,11 +57,12 @@ const LoginForm = () => {
         },
         body: JSON.stringify(loginData),
       });
-
+      console.log(response);
       if (response.ok) {
         const responseData = await response.json();
-        localStorage.setItem('token', responseData.token);
-        console.log('token')
+        localStorage.setItem("token", responseData.token);
+        console.log("token");
+        handleRouter(pathName.MAIN);
       } else {
         console.log("로그인 실패");
       }
