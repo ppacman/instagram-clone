@@ -8,6 +8,8 @@ import Image from "next/image"; //이게 넥스트에서 지절로 제공해주�
 
 import { MdOutlineCancel, MdOutlineCheckCircleOutline } from "react-icons/md";
 import { isForStatement } from "typescript";
+import Router from "next/router";
+import { pathName } from "../../../src/config/pathName";
 
 // import mainLogo from '/Users/maaaanzi/instagram-clone/src/components/signUpPage/logo.png';
 
@@ -33,6 +35,10 @@ function SignUpForm() {
 
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [emailMessage, setEmailMessage] = useState("");
+
+  const handleRouter = (router: string) => {
+    Router.push(router);
+  };
 
   // submit 이벤트 핸들러
   // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -77,21 +83,23 @@ function SignUpForm() {
     const JSONdata = JSON.stringify(data);
 
     const endpoint = "http://localhost:8080/api/signUp";
+    try {
+      const options = {
+        method: "POST",
 
-    const options = {
-      method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-      headers: {
-        "Content-Type": "application/json",
-      },
+        body: JSONdata,
+      };
 
-      body: JSONdata,
-    };
+      const response = await fetch(endpoint, options);
 
-    const response = await fetch(endpoint, options);
-
-    const result = await response.json();
-    console.log(result);
+      () => handleRouter(pathName.SIGNUP);
+    } catch (error) {
+      console.error("Error sending comment:", error);
+    }
   };
 
   const validateEmail = (emailOrPhone: string): boolean => {
