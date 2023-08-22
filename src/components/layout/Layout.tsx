@@ -13,7 +13,7 @@ interface ContentProps {
 
 const Layout = ({ children }: Props) => {
   const router = useRouter();
-  const hideSideBarPages = ["/login", "/signUp"];
+  const hideSideBarPages = ["/login", "/signup"];
   const hideSideBar = hideSideBarPages.includes(router.pathname);
 
   return (

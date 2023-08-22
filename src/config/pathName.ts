@@ -1,7 +1,7 @@
 export const pathName = {
   MAIN: "/",
   LOGIN: "/login",
-  SIGNUP: "/signUp",
+  SIGNUP: "/signup",
   MYPAGE: "/myPage",
   CHAT: "/chat",
   SEARCH: "/search",
