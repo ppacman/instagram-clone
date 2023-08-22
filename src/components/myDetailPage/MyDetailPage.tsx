@@ -10,14 +10,6 @@ interface ModalProps {
   postId: number;
   onClose: () => void;
 }
-// interface CommentList {
-//   commentList: Array<Comment>;
-// }
-// interface Comment {
-//   commentId: number;
-//   content: string;
-// }
-
 interface ChatProps {
   commentText: boolean;
 }

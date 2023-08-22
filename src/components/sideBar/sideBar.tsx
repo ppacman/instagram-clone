@@ -66,8 +66,6 @@ const SideBar = () => {
     };
   }, []);
 
-
-
   const profileClick = () => {
     handleClick(7); // 프로필 메뉴 클릭 상태로 설정
     Router.push(pathName.MYPAGE); // 프로필 페이지로 이동
@@ -78,10 +76,14 @@ const SideBar = () => {
     Router.push(pathName.MAIN);
   };
 
-  const dmClick = () =>{
+  const dmClick = () => {
     handleClick(4);
-    Router.push(pathName.CHAT)
-  }
+    Router.push(pathName.CHAT);
+  };
+  const searchClick = () => {
+    handleClick(1);
+    Router.push(pathName.SEARCH);
+  };
 
   return (
     <>
@@ -106,7 +108,7 @@ const SideBar = () => {
             </Menu>
           </MenuBox>
           <MenuBox>
-            <Menu onClick={() => handleClick(1)}>
+            <Menu onClick={() => searchClick()}>
               {buttonStates[1] ? (
                 <Image src={blackSearch} alt={""} width={27} height={27} />
               ) : (
@@ -173,7 +175,7 @@ const SideBar = () => {
               ) : (
                 <Image src={whiteProfile} alt={""} width={27} height={27} />
               )}
-              <MenuTypo active={buttonStates[7]}>프로필</MenuTypo> 
+              <MenuTypo active={buttonStates[7]}>프로필</MenuTypo>
             </Menu>
           </MenuBox>
         </MenuWrapper>
