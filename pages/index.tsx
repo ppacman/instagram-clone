@@ -3,10 +3,17 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 
+interface UserComment {
+  memberName: string;
+  content: string;
+}
+
 interface UserPost {
   image: string;
   caption: string;
   postId: number;
+  likeCount: number;
+  comments: Array<UserComment>;
 }
 const MainPage: React.FC<UserPost> = ({ postId, image, caption }) => {
   const [userPosts, setUserPosts] = useState<UserPost[]>([]);
@@ -20,6 +27,7 @@ const MainPage: React.FC<UserPost> = ({ postId, image, caption }) => {
         const response = await fetch("http://localhost:8080/api/post/all");
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           setUserPosts(data);
         } else {
           console.error("데이터 가져오기 실패");
@@ -38,6 +46,7 @@ const MainPage: React.FC<UserPost> = ({ postId, image, caption }) => {
         `http://localhost:8080/api/post/${postId}`
       );
       const postData = response.data;
+      console.log(postData);
       setIsLiked(postData.isLiked);
       setLikeCount(postData.likeCount);
     } catch (error) {
@@ -205,11 +214,26 @@ const MainPage: React.FC<UserPost> = ({ postId, image, caption }) => {
           </FuncLine>
           <LikeLine>
             <LikeSpan>좋아요</LikeSpan>
-            <LikeNumber>{likeCount}</LikeNumber>
+            <LikeNumber>{post.likeCount}</LikeNumber>
           </LikeLine>
           <CaptionLine>ppac__man {post.caption}</CaptionLine>
           <CommentLine>
             <CommentArea placeholder="댓글 달기..." />
+            <ul>
+              {post.comments
+                ? post.comments.map((comment) =>
+                    comment.memberName ? (
+                      <CommentList>
+                        {comment.memberName + comment.content}
+                      </CommentList>
+                    ) : (
+                      <CommentList>
+                        {"anonymus : " + comment.content}
+                      </CommentList>
+                    )
+                  )
+                : null}
+            </ul>
           </CommentLine>
         </ContentWrapper>
       ))}
@@ -331,4 +355,8 @@ const CommentArea = styled.textarea`
   border: none;
   outline: none;
   resize: none;
+`;
+
+const CommentList = styled.li`
+  list-style: none;
 `;
